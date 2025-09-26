@@ -29,12 +29,15 @@ with app.app_context():
 def home():
     return render_template("index.html")
 
+@app.route("/post")
+def post():
+    return render_template("post.html")
+
 @app.route("/login")
 def login():
     return render_template("register.html")
 
-@app.route("/add_post")
-def post():
-    return render_template("add_post.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True,host="0.0.0.0")
