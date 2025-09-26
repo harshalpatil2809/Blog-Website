@@ -7,8 +7,18 @@
     {% block title %} <title>Blog-Site </title> {% endblock %}
 </head>
 <body class="bg-[#1E1E1E] text-white">
-    
-    <p>Hello World</p>
+    <nav class="w-full h-[50px] bg-white flex items-center justify-between px-4 ">
+        <div class="logo text-black font-bold text-xl ml-[100px]">
+            Blogger
+        </div>
+        
+        <div class=" text-black flex gap-10 mr-[100px]">
+            <a href="/">Home</a>
+            <a href="/add_post">Add Post</a>
+            <a href="/login">Login</a>
+        </div>
+
+    </nav>
     {% block content %}
 
     {% endblock %}
