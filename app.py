@@ -4,7 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,EmailField,SubmitField
 from wtforms.validators import DataRequired,Email,ValidationError
 import bcrypt
-from flask_mysqldb import MYSQL
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 app.config["MYSQL_HOST"] = "localhost"
@@ -13,12 +13,12 @@ app.config["MYSQL_PASSWORD"] = "harshalpatil@123"
 app.config["MYSQL_DB"] = "blogdb"
 app.secret_key = "blog-by-harshal"
 
-mysql = MYSQL(app)
+mysql = MySQL(app)
 
 class Registration(FlaskForm):
-    name = StringField("Name", DataRequired())
-    email = EmailField("Email", DataRequired(), Email())
-    password = PasswordField("password", DataRequired())
+    name = StringField("name", validators=[DataRequired()])
+    email = EmailField("email", validators=[DataRequired(), Email()])
+    password = PasswordField("password", validators=[DataRequired()])
     submit = SubmitField("submit")
 
 
@@ -30,25 +30,25 @@ def home():
 def post():
     return render_template("post.html")
 
-@app.route("/registration")
+@app.route("/registration", methods=['POST','GET'])
 def registration():
     form  = Registration()
-    if form.validate_on_submit:
+    if form.validate_on_submit():
         name = form.name.data
         email = form.email.data
         password = form.password.data
 
         hashed_pass = bcrypt.hashpw(password.encode('utf-8'),bcrypt.gensalt())
 
-        cursor = MYSQL.connection.cursor()
+        cursor = mysql.connection.cursor()
 
-        cursor.execute(" INSERT INTO (name,email,password) VALUES (%s,%s,%s)",(name,email,password))
+        cursor.execute(" INSERT INTO users (user_name, email, password) VALUES (%s, %s, %s)",(name,email,hashed_pass))
         mysql.connect.commit()
         cursor.close()
 
         return redirect(url_for("login"))
 
-    return render_template("register.html")
+    return render_template("register.html",form=form)
 
 
 
