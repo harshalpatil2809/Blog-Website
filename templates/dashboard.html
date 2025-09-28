@@ -1,10 +1,42 @@
 {% extends 'base.html' %}
 
-{% block title %} <title>Blog-Website</title>{% endblock %}
-
+{% block title %} 
+<title>Dashboard</title> 
+{% endblock %}
 
 {% block content %}
 
-    <p>Welcome {{ name }}</p>
+<div class="min-h-screen bg-gray-900 px-4 py-8">
+    <div class="max-w-4xl mx-auto bg-gray-800 rounded-2xl shadow-xl p-8">
+        
+        <!-- Welcome Header -->
+        <h1 class="text-4xl font-bold text-gray-100 mb-4 tracking-wide">Welcome, {{ name }}!</h1>
+        <p class="text-gray-300 mb-8">You are now logged in. Explore your dashboard below.</p>
+
+        <!-- Dashboard Actions / Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            
+            <!-- Add Blog Post Card -->
+            <a href="{{ url_for('post') }}" class="block bg-gray-700 hover:bg-gray-600 transition rounded-xl p-6 shadow-md">
+                <h2 class="text-xl font-semibold text-white mb-2">Add New Blog Post</h2>
+                <p class="text-gray-300 text-sm">Create and share your latest blog post with the world.</p>
+            </a>
+
+            <!-- Profile Card -->
+            <div class="bg-gray-700 rounded-xl p-6 shadow-md">
+                <h2 class="text-xl font-semibold text-white mb-2">Profile Information</h2>
+                <p class="text-gray-300 text-sm">Username: {{ name }}</p>
+                <p class="text-gray-300 text-sm">Email: {{ email }}</p>
+            </div>
+
+            <!-- Logout Card -->
+            <a href="{{ url_for('logout') }}" class="block bg-red-600 hover:bg-red-500 transition rounded-xl p-6 shadow-md text-center">
+                <h2 class="text-xl font-semibold text-white">Logout</h2>
+                <p class="text-gray-200 text-sm">Click here to safely logout of your account.</p>
+            </a>
+
+        </div>
+    </div>
+</div>
 
 {% endblock %}
