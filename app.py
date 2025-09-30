@@ -43,7 +43,24 @@ class LoginForm(FlaskForm):
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    posts = [
+        {
+            "username": "Harshal",
+            "title": "Getting Started with Flask",
+            "description": "Flask is a lightweight WSGI web application framework. It is designed to make getting started quick and easy..."
+        },
+        {
+            "username": "Amit",
+            "title": "Introduction to Python",
+            "description": "Python is one of the most popular programming languages. It is simple, versatile, and widely used in web development, data science..."
+        },
+        {
+            "username": "Sneha",
+            "title": "Mastering TailwindCSS",
+            "description": "TailwindCSS is a utility-first CSS framework that provides low-level utility classes. You can build modern and responsive designs..."
+        }
+    ]
+    return render_template("index.html", posts=posts)
 
 
 @app.route("/post")
