@@ -41,25 +41,132 @@ class LoginForm(FlaskForm):
     submit = SubmitField("submit")
 
 
+class Blog(FlaskForm):
+    title = StringField("title", validators=[DataRequired()])
+    discription = StringField("disc", validators=[DataRequired()])
+    submit = SubmitField("submit")
+
+    
 @app.route("/")
 def home():
     posts = [
-        {
-            "username": "Harshal",
-            "title": "Getting Started with Flask",
-            "description": "Flask is a lightweight WSGI web application framework. It is designed to make getting started quick and easy..."
-        },
-        {
-            "username": "Amit",
-            "title": "Introduction to Python",
-            "description": "Python is one of the most popular programming languages. It is simple, versatile, and widely used in web development, data science..."
-        },
-        {
-            "username": "Sneha",
-            "title": "Mastering TailwindCSS",
-            "description": "TailwindCSS is a utility-first CSS framework that provides low-level utility classes. You can build modern and responsive designs..."
-        }
-    ]
+    {
+        "username": "Harshal",
+        "title": "Getting Started with Flask",
+        "description": "Flask is a lightweight WSGI web application framework. It is designed to make getting started quick and easy..."
+    },
+    {
+        "username": "Amit",
+        "title": "Introduction to Python",
+        "description": "Python is one of the most popular programming languages. It is simple, versatile, and widely used in web development, data science..."
+    },
+    {
+        "username": "Sneha",
+        "title": "Mastering TailwindCSS",
+        "description": "TailwindCSS is a utility-first CSS framework that provides low-level utility classes. You can build modern and responsive designs..."
+    },
+    {
+        "username": "Ravi",
+        "title": "Building REST APIs with Flask",
+        "description": "Learn how to build RESTful APIs with Flask by using Flask-RESTful and integrating authentication..."
+    },
+    {
+        "username": "Pooja",
+        "title": "Exploring Django vs Flask",
+        "description": "Both Django and Flask are popular Python frameworks. While Django is full-featured, Flask offers flexibility and simplicity..."
+    },
+    {
+        "username": "Kiran",
+        "title": "Getting Started with React",
+        "description": "React is a JavaScript library for building user interfaces. It is component-based, declarative, and widely used..."
+    },
+    {
+        "username": "Meera",
+        "title": "Database Integration with SQLAlchemy",
+        "description": "SQLAlchemy is a Python SQL toolkit and ORM that allows developers to work with databases in a Pythonic way..."
+    },
+    {
+        "username": "Aditya",
+        "title": "Introduction to Machine Learning",
+        "description": "Machine learning enables computers to learn from data without being explicitly programmed. Explore supervised and unsupervised learning..."
+    },
+    {
+        "username": "Rohit",
+        "title": "Git and GitHub Basics",
+        "description": "Version control is crucial in software development. Learn how Git and GitHub help in collaboration and code management..."
+    },
+    {
+        "username": "Divya",
+        "title": "Mastering Bootstrap 5",
+        "description": "Bootstrap 5 is a popular front-end framework that helps in building responsive and mobile-first websites quickly..."
+    },
+    {
+        "username": "Nikhil",
+        "title": "Understanding APIs",
+        "description": "APIs allow applications to communicate with each other. Explore REST, GraphQL, and gRPC approaches..."
+    },
+    {
+        "username": "Priya",
+        "title": "Getting Started with Docker",
+        "description": "Docker enables containerization, making applications portable and easier to deploy across different environments..."
+    },
+    {
+        "username": "Arjun",
+        "title": "Introduction to JavaScript",
+        "description": "JavaScript is the backbone of web interactivity. Learn about variables, functions, DOM manipulation, and ES6 features..."
+    },
+    {
+        "username": "Shreya",
+        "title": "Data Analysis with Pandas",
+        "description": "Pandas is a Python library for data manipulation and analysis. It provides data structures and functions for working with structured data..."
+    },
+    {
+        "username": "Manish",
+        "title": "Introduction to Cloud Computing",
+        "description": "Cloud computing delivers computing services like servers, storage, and databases over the internet..."
+    },
+    {
+        "username": "Aishwarya",
+        "title": "Getting Started with Vue.js",
+        "description": "Vue.js is a progressive JavaScript framework used to build user interfaces. It is lightweight and easy to integrate..."
+    },
+    {
+        "username": "Siddharth",
+        "title": "Python for Data Science",
+        "description": "Python provides powerful libraries like NumPy, Pandas, and Matplotlib that make data analysis and visualization easy..."
+    },
+    {
+        "username": "Neha",
+        "title": "Building Responsive Websites",
+        "description": "Responsive design ensures websites work well on all screen sizes. Learn about media queries and mobile-first design..."
+    },
+    {
+        "username": "Varun",
+        "title": "Understanding Artificial Intelligence",
+        "description": "Artificial Intelligence is the simulation of human intelligence by machines. Explore its applications and future possibilities..."
+    },
+    {
+        "username": "Isha",
+        "title": "Getting Started with Node.js",
+        "description": "Node.js is a runtime environment that allows JavaScript to run on the server. Learn about npm and asynchronous programming..."
+    },
+    {
+        "username": "Kabir",
+        "title": "Mastering CSS Grid and Flexbox",
+        "description": "CSS Grid and Flexbox are powerful layout systems that simplify the process of building responsive designs..."
+    },
+    {
+        "username": "Tanvi",
+        "title": "Working with RESTful APIs",
+        "description": "RESTful APIs are widely used in web applications. Learn how to consume and build them with different programming languages..."
+    },
+    {
+        "username": "Rahul",
+        "title": "Getting Started with PostgreSQL",
+        "description": "PostgreSQL is a powerful open-source relational database system. Learn how to install, configure, and run queries..."
+    }
+]
+
     return render_template("index.html", posts=posts)
 
 
