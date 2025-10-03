@@ -51,14 +51,10 @@ class Blog(FlaskForm):
 @app.route("/")
 def home():
     cursor = mysql.connection.cursor()
-
-    cursor = mysql.connection.cursor()
     cursor.execute("SELECT author,title,description,id FROM blogs")
     blogs = cursor.fetchall()
     n = len(blogs)-1
     cursor.close()
-
-
     return render_template("index.html",blogs=blogs,n=n)
 
 
@@ -76,8 +72,8 @@ def post():
             cursor.execute("INSERT INTO blogs (user_id,title, author, description) VALUES (%s, %s, %s, %s)",(user_id,title, author, description))
             mysql.connection.commit()
             cursor.close()
-            
-            return render_template("index.html")
+            # after successful post, redirect to the home page which loads the blogs list
+            return redirect(url_for("home"))
     return render_template("post.html",form=form)
 
 
