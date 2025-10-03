@@ -52,15 +52,17 @@ class Blog(FlaskForm):
 def home():
     cursor = mysql.connection.cursor()
 
-    cursor.execute(" SELECT * FROM blogs")
-    user = cursor.fetchone()
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT author,title,description,id FROM blogs")
+    blogs = cursor.fetchall()
+    n = len(blogs)-1
     cursor.close()
 
-    
-    return render_template("index.html")
+
+    return render_template("index.html",blogs=blogs,n=n)
 
 
-@app.route("/post")
+@app.route("/post", methods = ['POST','GET'])
 def post():
     form  = Blog()
     if form.validate_on_submit():
@@ -71,13 +73,12 @@ def post():
             author = form.author.data
             cursor = mysql.connection.cursor()
 
-            cursor.execute("INSERT INTO blogs (user_id,title, author, description) VALUES (%s, %s, %s)",
-                (user_id,title, author, description))
+            cursor.execute("INSERT INTO blogs (user_id,title, author, description) VALUES (%s, %s, %s, %s)",(user_id,title, author, description))
             mysql.connection.commit()
             cursor.close()
             
-            return render_template("index.html",form=form)
-    return render_template("post.html")
+            return render_template("index.html")
+    return render_template("post.html",form=form)
 
 
 @app.route("/login", methods = ['POST','GET'])
@@ -132,12 +133,11 @@ def dashboard():
         cursor.execute(" SELECT * FROM users WHERE id = %s",(user_id,))
         user = cursor.fetchone()
         cursor.close()
-        print(user)
         if user :
             name = user[1]
             username = user[2]
             email = user[3]
-            return render_template("dashboard.html", username=username)
+            return render_template("dashboard.html", username=username, name=name, email=email)
 
     return redirect(url_for("login"))
 

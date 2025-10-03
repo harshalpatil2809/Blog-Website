@@ -20,8 +20,11 @@
         <div class="flex gap-8">
             <a href="/" class="text-gray-200 hover:text-white transition duration-200 font-medium">Home</a>
             <a href="/post" class="text-gray-200 hover:text-white transition duration-200 font-medium">Add Post</a>
-            <a href="/registration"
-                class="text-gray-200 hover:text-white transition duration-200 font-medium">Register</a>
+            {% if not 'user_id' in session %}
+                <a href="/registration" class="text-gray-200 hover:text-white transition duration-200 font-medium">Register</a>
+            {% else %}
+                <a href="/dashboard" class="text-gray-200 hover:text-white transition duration-200 font-medium">Dashboard</a>
+            {% endif %}
         </div>
     </nav>
 
@@ -29,7 +32,7 @@
 
     {% endblock %}
 
-    <script src="{{url_for('static', filename = 'script.js' )}}"></script>
+    
 </body>
 
 </html>
