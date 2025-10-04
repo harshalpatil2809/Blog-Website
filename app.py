@@ -7,7 +7,7 @@ import bcrypt
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
-app.config["MYSQL_HOST"] = "127.0.0.1"
+app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = "harshalpatil@123"
 app.config["MYSQL_DB"] = "blogdb"
@@ -72,7 +72,7 @@ def post():
             cursor.execute("INSERT INTO blogs (user_id,title, author, description) VALUES (%s, %s, %s, %s)",(user_id,title, author, description))
             mysql.connection.commit()
             cursor.close()
-            # after successful post, redirect to the home page which loads the blogs list
+            
             return redirect(url_for("home"))
     return render_template("post.html",form=form)
 
