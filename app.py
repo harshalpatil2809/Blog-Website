@@ -5,6 +5,8 @@ from wtforms import StringField,PasswordField,EmailField,SubmitField
 from wtforms.validators import DataRequired,Email,ValidationError,Regexp
 import bcrypt
 from flask_mysqldb import MySQL
+import logging
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
 app.config["MYSQL_HOST"] = "localhost"
@@ -14,6 +16,24 @@ app.config["MYSQL_DB"] = "blogdb"
 app.secret_key = "blog-by-harshal"
 
 mysql = MySQL(app)
+
+# Setup error logging to a rotating file so 500 tracebacks are captured in production
+if not app.debug:
+    handler = RotatingFileHandler('error.log', maxBytes=1024*1024, backupCount=3)
+    handler.setLevel(logging.ERROR)
+    formatter = logging.Formatter(
+        '[%(asctime)s] %(levelname)s in %(module)s: %(message)s'
+    )
+    handler.setFormatter(formatter)
+    app.logger.addHandler(handler)
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    # log full traceback
+    app.logger.error('Server Error: %s', e, exc_info=True)
+    # show a friendly error page
+    return render_template('500.html'), 500
 
 class Registration(FlaskForm):
     name = StringField("name", validators=[DataRequired()])
@@ -54,8 +74,8 @@ def home():
     cursor.execute("SELECT author,title,description,id FROM blogs")
     blogs = cursor.fetchall()
     cursor.close()
-    print(blogs)
-    return render_template("index.html",blogs=blogs)
+    n = len(blogs) - 1
+    return render_template("index.html", blogs=blogs, n=n)
 
 
 @app.route("/post", methods = ['POST','GET'])
