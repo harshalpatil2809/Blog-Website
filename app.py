@@ -53,9 +53,9 @@ def home():
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT author,title,description,id FROM blogs")
     blogs = cursor.fetchall()
-    n = len(blogs)-1
     cursor.close()
-    return render_template("index.html",blogs=blogs,n=n)
+    print(blogs)
+    return render_template("index.html",blogs=blogs)
 
 
 @app.route("/post", methods = ['POST','GET'])
