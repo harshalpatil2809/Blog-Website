@@ -5,35 +5,17 @@ from wtforms import StringField,PasswordField,EmailField,SubmitField
 from wtforms.validators import DataRequired,Email,ValidationError,Regexp
 import bcrypt
 from flask_mysqldb import MySQL
-import logging
-from logging.handlers import RotatingFileHandler
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = "harshalpatil@123"
-app.config["MYSQL_DB"] = "blogdb"
-app.secret_key = "blog-by-harshal"
+app.config["MYSQL_HOST"] = os.getenv("MYSQL_HOST")
+app.config["MYSQL_USER"] = os.getenv("MYSQL_USER")
+app.config["MYSQL_PASSWORD"] = os.getenv("MYSQL_PASSWORD")
+app.config["MYSQL_DB"] = os.getenv("MYSQL_DB")
+app.secret_key = os.getenv("APP_SECRET_KEY")
 
 mysql = MySQL(app)
-
-# Setup error logging to a rotating file so 500 tracebacks are captured in production
-if not app.debug:
-    handler = RotatingFileHandler('error.log', maxBytes=1024*1024, backupCount=3)
-    handler.setLevel(logging.ERROR)
-    formatter = logging.Formatter(
-        '[%(asctime)s] %(levelname)s in %(module)s: %(message)s'
-    )
-    handler.setFormatter(formatter)
-    app.logger.addHandler(handler)
-
-
-@app.errorhandler(500)
-def internal_server_error(e):
-    # log full traceback
-    app.logger.error('Server Error: %s', e, exc_info=True)
-    # show a friendly error page
-    return render_template('500.html'), 500
 
 class Registration(FlaskForm):
     name = StringField("name", validators=[DataRequired()])
