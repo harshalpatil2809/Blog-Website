@@ -7,15 +7,20 @@ import bcrypt
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 import os
+import logging
 
 load_dotenv()
 
 app = Flask(__name__)
 app.config["MYSQL_HOST"] = os.getenv("MYSQL_HOST")
+app.config["MYSQL_PORT"] = int(os.getenv("MYSQL_PORT", 3306))
 app.config["MYSQL_USER"] = os.getenv("MYSQL_USER")
 app.config["MYSQL_PASSWORD"] = os.getenv("MYSQL_PASSWORD")
 app.config["MYSQL_DB"] = os.getenv("MYSQL_DB")
 app.secret_key = os.getenv("APP_SECRET_KEY")
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 mysql = MySQL(app)
 
@@ -159,6 +164,7 @@ def _dbstatus():
         cur.close()
         return "DB OK", 200
     except Exception as e:
+        logger.exception("DB connection failed")
         return f"DB ERROR: {e}", 500
 
 if __name__ == "__main__":
