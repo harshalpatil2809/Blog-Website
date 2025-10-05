@@ -8,6 +8,8 @@ from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 app = Flask(__name__)
 app.config["MYSQL_HOST"] = os.getenv("MYSQL_HOST")
 app.config["MYSQL_USER"] = os.getenv("MYSQL_USER")
@@ -149,7 +151,15 @@ def logout():
     return redirect(url_for("home"))
 
 
-
+@app.route("/_dbstatus")
+def _dbstatus():
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT 1")
+        cur.close()
+        return "DB OK", 200
+    except Exception as e:
+        return f"DB ERROR: {e}", 500
 
 if __name__ == "__main__":
     app.run(debug=True,host="0.0.0.0")
