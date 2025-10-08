@@ -15,7 +15,6 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# build DATABASE_URL from env or use provided DATABASE_URL
 database_url = os.getenv("DATABASE_URL")
 if not database_url:
     pg_host = os.getenv("POSTGRES_HOST", "127.0.0.1")
@@ -71,7 +70,7 @@ def home():
         res = db.session.execute(text("SELECT author, title, description, id FROM blogs"))
         rows = res.fetchall()
         blogs = [tuple(r) for r in rows]
-        n = len(blogs) - 1
+        n = len(blogs)
         return render_template("index.html", blogs=blogs, n=n)
     except Exception as e:
         logger.exception("Error in home()")
@@ -108,6 +107,7 @@ def post():
 @app.route("/login", methods=['POST', 'GET'])
 def login():
     form = LoginForm()
+    session.permanent = True
     if form.validate_on_submit():
         email = form.email.data
         password = form.password.data

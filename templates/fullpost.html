@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>{{ post.title }} - Blog</title>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex justify-center bg-gray-900 px-4 py-12">
+  <div class="max-w-3xl w-full bg-gray-800 rounded-2xl shadow-xl p-8">
+    <h1 class="text-4xl font-bold text-gray-100 mb-4">{{ post.title }}</h1>
+    <p class="text-gray-400 mb-2">
+      By <span class="text-blue-400 font-medium">{{ post.author }}</span>
+    </p>
+    <hr class="border-gray-700 my-4" />
+    <p class="text-gray-200 leading-relaxed text-lg whitespace-pre-line">
+      {{ post.description }}
+    </p>
+
+    <div class="mt-8">
+      <a href="{{ url_for('home') }}" 
+         class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+         ← Back to Home
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
