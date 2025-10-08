@@ -190,5 +190,24 @@ def _dbstatus():
         return f"DB ERROR: {e}", 500
 
 
+@app.route("/fullpost<int:fullpost>")
+def fullpost(fullpost):
+    try:
+        res = db.session.execute(
+            text("SELECT author, title, description, created_at FROM blogs WHERE id = :id"),
+            {"id": fullpost}
+        )
+        post = res.fetchone()
+        if not post:
+            flash("Post not found...!, Try again.")
+            return redirect(url_for("home"))
+        
+        return render_template("fullpost.html", post = post)
+    except Exception as e:
+        logger.exception("Error loading post")
+        flash("Something went wrong while loading the post.", "error")
+        return redirect(url_for("home"))
+
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
